@@ -15,8 +15,11 @@ class DefaultController extends AbstractController
      */
     public function index(WalletRepository $walletRepository): Response
     {
+        /*--------------------------------------------- get all data transactions*/
+
         $data = $walletRepository->findAll();
-        //dd($data);
+
+        /*--------------------------------------------- call of the template*/
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',

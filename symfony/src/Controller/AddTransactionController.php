@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Form\AddToWalletFormType;
 use App\Entity\Wallet;
-use DateTimeInterface;
 
 class AddTransactionController extends AbstractController
 {
@@ -26,11 +25,13 @@ class AddTransactionController extends AbstractController
         $form = $this->createForm(AddToWalletFormType::class);
         $form->handleRequest($request);
 
-
+        /*--------------------------------------------- Check validity of form */
 
         if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
-            /*--------------------------------------------- Adding forms data to DataBase*/
+            
+            /*--------------------------------------------- Adding forms data to DataBase */
+            
             $NewTransaction = new Wallet;
             $NewTransaction->setCryptoName($data['crypto_name']);
             $NewTransaction->setAmount($data['amount']);
@@ -43,8 +44,11 @@ class AddTransactionController extends AbstractController
                 
             $entityManager->persist($NewTransaction);
             $entityManager->flush();
-
+            
         }
+
+        /*--------------------------------------------- call of the template */
+        
         return $this->render('add_transaction/index.html.twig', [
             'controller_name' => 'AddTransactionController',
             'form'=>$form->createView()
