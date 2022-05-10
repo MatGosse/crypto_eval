@@ -10,9 +10,11 @@
 
 <div class="example-wrapper">
     <div>
-        {% for exanges in data_wallet %}
-            <p>{{ exanges.CryptoName }}</p>
-        {% endfor %}
+        <ul>
+            {% for exanges in data_wallet %}
+                <li>{{ exanges.CryptoName }} <button></button></li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

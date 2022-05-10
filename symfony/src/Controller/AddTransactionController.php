@@ -35,6 +35,8 @@ class AddTransactionController extends AbstractController
             $NewTransaction->setCryptoName($data['crypto_name']);
             $NewTransaction->setAmount($data['amount']);
             $NewTransaction->setInitialValue($data['initial_value']);
+            $NewTransaction->setCurrentValue($data['initial_value']);
+            $NewTransaction->setStatus(true);
             $NewTransaction->setCreationDate(new \DateTime('@'.strtotime('now')));
 
             $entityManager = $doctrine->getManager();

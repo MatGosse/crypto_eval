@@ -37,6 +37,16 @@ class Wallet
      */
     private $creation_date;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $current_value;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,30 @@ class Wallet
     public function setCreationDate(\DateTimeInterface $creation_date): self
     {
         $this->creation_date = $creation_date;
+
+        return $this;
+    }
+
+    public function getCurrentValue(): ?int
+    {
+        return $this->current_value;
+    }
+
+    public function setCurrentValue(int $current_value): self
+    {
+        $this->current_value = $current_value;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
