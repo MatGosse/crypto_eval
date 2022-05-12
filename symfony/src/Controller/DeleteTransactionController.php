@@ -9,6 +9,8 @@ use App\Repository\WalletRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\RemoveWalletFormType;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\WinningsRepository;
+use App\Entity\Winnings;
 
 
 class DeleteTransactionController extends AbstractController
@@ -16,8 +18,10 @@ class DeleteTransactionController extends AbstractController
     /**
      * @Route("/delete", name="app_delete_transaction")
      */
-    public function index(Request $request, WalletRepository $walletRepository, ManagerRegistry $doctrine): Response
+    public function index(Request $request, WalletRepository $walletRepository, WinningsRepository $winningRepository, ManagerRegistry $doctrine): Response
     {
+        $entityManager = $doctrine->getManager();
+
         /*--------------------------------------------- check the statue of the transaction*/
         
         $transaction = $walletRepository->find($request->query->getInt('id'));
@@ -29,30 +33,60 @@ class DeleteTransactionController extends AbstractController
         $form = $this->createForm(RemoveWalletFormType::class);
         $form->handleRequest($request);
 
+        /*--------------------------------------------- check winnigs list */
+        
+        $allWinnings= $winningRepository->findAll();
+
+        if($allWinnings===[]){
+            $defaultwinnings = new Winnings;
+            $defaultwinnings->setBalance(0);
+            $defaultwinnings->setDateEntry(new \DateTime('@'.strtotime('now')));
+
+            $entityManager->persist($defaultwinnings);
+            $entityManager->flush($defaultwinnings);
+
+            $balanceamount = 0;
+        }else{
+            $lastentires = end($allWinnings);
+            $balanceamount = $lastentires->getBalance();
+        }
+
         /*--------------------------------------------- check valdity of form */
 
         if($form->isSubmitted() && $form->isValid()){
             $data=$form->getData();
-            $entityManager = $doctrine->getManager();
 
             if($transaction->getAmount() > (int)$data['amount']){
                 $transaction->setAmount( (int)$data['amount']);
                 
+                $newWinnings= new Winnings;
+                $newWinnings->setBalance($balanceamount + $transaction->getCurrentValue());
+                $newWinnings->setDateEntry(new \DateTime('@'.strtotime('now')));
+
+                $entityManager->persist($transaction);
+                $entityManager->flush($transaction); 
+                $entityManager->persist($newWinnings);
+                $entityManager->flush($newWinnings);
                 return $this->redirectToRoute('app_default');
             }else if($transaction->getAmount()=== (int)$data['amount']){
                 $transaction->setAmount(0);
                 $transaction->setStatus(false);
                 
+                $newWinnings= new Winnings;
+                $newWinnings->setBalance($balanceamount + $transaction->getCurrentValue());  
+                $newWinnings->setDateEntry(new \DateTime('@'.strtotime('now')));
+
+                $entityManager->persist($transaction);
+                $entityManager->flush($transaction); 
+                $entityManager->persist($newWinnings);
+                $entityManager->flush($newWinnings);
                 return $this->redirectToRoute('app_default');
             }else{
-                /*error value can't be negative*/
+                /*to do error value can't be negative*/
             }
             
             /*--------------------------------------------- update data */
             
-            $entityManager->persist($transaction);
-            $entityManager->flush($transaction); 
-
         }
         /*--------------------------------------------- call of the template*/
 

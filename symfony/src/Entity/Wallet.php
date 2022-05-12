@@ -18,11 +18,6 @@ class Wallet
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $crypto_name;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $amount;
@@ -47,21 +42,15 @@ class Wallet
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Curency::class, inversedBy="wallets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Currency;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCryptoName(): ?string
-    {
-        return $this->crypto_name;
-    }
-
-    public function setCryptoName(string $crypto_name): self
-    {
-        $this->crypto_name = $crypto_name;
-
-        return $this;
     }
 
     public function getAmount(): ?int
@@ -120,6 +109,18 @@ class Wallet
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Curency
+    {
+        return $this->Currency;
+    }
+
+    public function setCurrency(?Curency $Currency): self
+    {
+        $this->Currency = $Currency;
 
         return $this;
     }

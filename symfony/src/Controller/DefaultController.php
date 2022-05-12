@@ -16,7 +16,7 @@ class DefaultController extends AbstractController
     public function index(WalletRepository $walletRepository): Response
     {
         /*--------------------------------------------- get all data transactions*/
-
+        
         $data = $walletRepository->findAll();
 
         /*--------------------------------------------- call of the template*/
