@@ -18,12 +18,12 @@ class Wallet
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $amount;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $initial_value;
 
@@ -33,7 +33,7 @@ class Wallet
     private $creation_date;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $current_value;
 
