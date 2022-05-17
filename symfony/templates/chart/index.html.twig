@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddCurrencyController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+	<canvas id="myChart" width="400" height="400"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+	let datasArray = {{ data|json_encode() }};
+
+	let data = [];
+	let labels = [];
+	datasArray.forEach((entrie)=>{
+		labels.push(Date(entrie[0]).toLocaleString());
+		data.push(entrie[6]/entrie[5]*{{amount}})
+	});
+	console.log(data);
+
+	const ctx = document.getElementById('myChart').getContext('2d');
+	const myChart = new Chart(ctx, {
+		type: 'line',
+		data:{
+			labels: labels,
+			datasets: [{
+				label: 'gains',
+				data: data,
+				fill: true,
+				borderColor: 'rgb(75, 192, 192)',
+				tension: 0.1
+			}]
+		}
+	});
+</script>
+{% endblock %}

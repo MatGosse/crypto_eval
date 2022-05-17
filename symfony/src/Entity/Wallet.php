@@ -48,6 +48,11 @@ class Wallet
      */
     private $Currency;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $initialAmount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,18 @@ class Wallet
     public function setCurrency(?Curency $Currency): self
     {
         $this->Currency = $Currency;
+
+        return $this;
+    }
+
+    public function getInitialAmount(): ?float
+    {
+        return $this->initialAmount;
+    }
+
+    public function setInitialAmount(float $initialAmount): self
+    {
+        $this->initialAmount = $initialAmount;
 
         return $this;
     }

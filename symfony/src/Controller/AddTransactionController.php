@@ -58,6 +58,7 @@ class AddTransactionController extends AbstractController
             $NewTransaction = new Wallet;
             $NewTransaction->setCurrency($currency);
             $NewTransaction->setAmount($data['amount']);
+            $NewTransaction->setInitialAmount($data['amount']);
             $NewTransaction->setInitialValue($data['initial_value']);
             $NewTransaction->setCurrentValue($data['initial_value']);
             $NewTransaction->setStatus(true);

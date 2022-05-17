@@ -28,21 +28,21 @@ class DefaultController extends AbstractController
 
             /*---------------------------------------------Check current Value*/
 
-            $amount = $trade->getAmount();
-            $slug = $trade->getCurrency()->getSlug();
-            $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'';
+            // $amount = $trade->getAmount();
+            // $slug = $trade->getCurrency()->getSlug();
+            // $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'';
     
-            /*call to api */
+            // /*call to api */
             
-            $response = $client->request('GET', $url, [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'X-CMC_PRO_API_KEY' => '073c15a6-fd76-40d2-8efd-9a62ecab8077'
-                ],
-            ]);
-            $content = $response->getContent(); 
-            $trade->setCurrentValue(json_decode($content)->data[0]->quote->USD->price);   
-            $entityManager->flush($trade);
+            // $response = $client->request('GET', $url, [
+            //     'headers' => [
+            //         'Accept' => 'application/json',
+            //         'X-CMC_PRO_API_KEY' => '073c15a6-fd76-40d2-8efd-9a62ecab8077'
+            //     ],
+            // ]);
+            // $content = $response->getContent(); 
+            // $trade->setCurrentValue(json_decode($content)->data[0]->quote->USD->price);   
+            // $entityManager->flush($trade);
         }
 
         /*--------------------------------------------- call of the template*/

@@ -29,7 +29,7 @@ class DeleteTransactionController extends AbstractController
         /*--------------------------------------------- check the statue of the transaction*/
         
         $transaction = $walletRepository->find($request->query->getInt('id'));
-        if($transaction->getStatus()===false){
+        if($transaction===null || $transaction->getStatus()===false){
             return $this->redirectToRoute('app_default');
         }
         /*--------------------------------------------- create form */
