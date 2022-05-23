@@ -59,7 +59,7 @@ class ChartController extends AbstractController
 
 
         return $this->render('chart/index.html.twig', [
-            'controller_name' => 'ChartController',
+            'controller_name' => 'Gains',
             'data'=> json_decode($content)->result->{'60'},
             'amount'=> $transaction->getAmount(),
             'initial'=> $transaction->getAmount()/$transaction->getInitialAmount()*$transaction->getInitialValue()

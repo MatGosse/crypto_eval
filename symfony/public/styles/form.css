@@ -1,0 +1,68 @@
+.container-form{
+    position: absolute;
+    min-height: 100%;
+    margin: 0 auto;
+    left:10%;
+}
+.container-form form{
+    width: 100%;
+}
+.container-form input, .container-form select{
+    height: 40px; 
+    border: none;
+    width: 100%;
+    background: none;
+    padding: 0px 5px;
+}
+.container-form div{
+    border: solid 0.5px #efefef;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    color: #efefef;
+    overflow: hidden;
+}
+.container-form img{
+    float: left;
+    width: 22.5px;
+    height: 22.5px;
+    margin: 0px 5px;
+}
+input:focus, select{
+    box-shadow: 0;
+    border: 0px;
+    outline: none;
+}
+select{
+    appearance: none;
+    background: #100f0f!important;
+}
+select::-ms-expand {
+    display: none;
+}
+:root {
+    --select-arrow: var(--select-border);
+}
+.container-form button[type="submit"]{
+    background-color: rgba(239,239,239,0.5);
+    color:#100f0f;
+    padding: 10px 40px;
+    position: absolute;
+    bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.submit-contain{
+    height: 0px;
+    border: none!important;
+}
+h1{
+    width: 100%;
+    text-align: center;
+}
+nav img{
+    position: absolute;
+    left: 10px;
+    top: 17.5px;
+    height: 15px;
+}

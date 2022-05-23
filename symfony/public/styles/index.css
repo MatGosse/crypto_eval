@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "title";
+    src: url("../police/Akzidenz-grotesk-black.ttf");
+
+}
+
+h1{
+    font-family: "title";
+}
+header{
+    background: black;
+    position: relative;
+    margin-top: 50px;
+    aspect-ratio: 2.5;
+    min-width: 100%;
+    max-height: 400px;
+    margin-bottom: 10px;
+}
+header input{
+    z-index: 10;
+    text-align: center;
+    background: none;
+    border:none;
+    font-size: 40px;
+    overflow: hidden;
+}
+#particles-js{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#transaction-list{
+    list-style: none;
+}
+#transaction-list img{
+    height: 25px;
+    margin-right: 5px;
+}
+#transaction-list form{
+    width: 100%;
+}
+#transaction-list li{
+    padding: 0px 15px;
+    height: 50px;
+    border-bottom: 1px solid rgb(239,239,239);
+}
+#transaction-list li:last-child{
+    border-bottom: none;
+}
+.transaction-viewed{
+    transition: 0.75s;
+    background-color: rgba(239,239,239,0.1);
+}
+#transaction-list  a img{
+    width:30px;
+}
+ #transaction-list a{
+     text-decoration: none;
+ }

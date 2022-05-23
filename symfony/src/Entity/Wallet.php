@@ -18,12 +18,12 @@ class Wallet
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", scale=6)
      */
     private $amount;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", scale=6)
      */
     private $initial_value;
 
@@ -33,7 +33,7 @@ class Wallet
     private $creation_date;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", scale=6)
      */
     private $current_value;
 
@@ -49,7 +49,7 @@ class Wallet
     private $Currency;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", scale=6)
      */
     private $initialAmount;
 
@@ -58,24 +58,24 @@ class Wallet
         return $this->id;
     }
 
-    public function getAmount(): ?int
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount(float $amount): self
     {
         $this->amount = $amount;
 
         return $this;
     }
 
-    public function getInitialValue(): ?int
+    public function getInitialValue(): ?float
     {
         return $this->initial_value;
     }
 
-    public function setInitialValue(int $initial_value): self
+    public function setInitialValue(float $initial_value): self
     {
         $this->initial_value = $initial_value;
 
@@ -94,12 +94,12 @@ class Wallet
         return $this;
     }
 
-    public function getCurrentValue(): ?int
+    public function getCurrentValue(): ?float
     {
         return $this->current_value;
     }
 
-    public function setCurrentValue(int $current_value): self
+    public function setCurrentValue(float $current_value): self
     {
         $this->current_value = $current_value;
 

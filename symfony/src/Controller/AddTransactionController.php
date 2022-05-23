@@ -78,7 +78,7 @@ class AddTransactionController extends AbstractController
         /*--------------------------------------------- call of the template */
         
         return $this->render('add_transaction/index.html.twig', [
-            'controller_name' => 'AddTransactionController',
+            'controller_name' => 'Ajouter une transaction',
             'form'=>$form->createView()
         ]);
     }

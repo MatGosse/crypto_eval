@@ -1,30 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AddCurrencyController!{% endblock %}
+{% block title %}gains{% endblock %}
+
+{% block nav %}
+    <a href="../"> <img src="{{ asset('/img/picto/cancel.png') }}"/></a>
+{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	{{ source('@css/form.css') }}
+    canvas{
+		position: relative;
+		top: 50px;
+	}
 </style>
 
-<div class="example-wrapper">
-
-	<canvas id="myChart" width="400" height="400"></canvas>
-</div>
+	<canvas id="myChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script>
+	const canvas = document.getElementById('myChart')
+	
+	canvas.setAttribute('width',  window.innerWidth-40);
+	canvas.setAttribute('height', window.innerHeight-100);
+
 	let datasArray = {{ data|json_encode() }};
 
 	let data = [];
 	let labels = [];
-	datasArray.forEach((entrie)=>{
-		labels.push(Date(entrie[0]).toLocaleString());
-		data.push(entrie[6]/entrie[5]*{{amount}})
+	datasArray.reverse().forEach((entrie)=>{
+		let options = { hour: "numeric", minute: "numeric"}
+		labels.push(new Date(entrie[0]*1000).toLocaleString("fr-FR",options));
+		data.push(entrie[6]/entrie[5]*{{ amount }} )
 	});
-	console.log(data);
 
-	const ctx = document.getElementById('myChart').getContext('2d');
+	
+
+	const ctx = canvas.getContext('2d');
 	const myChart = new Chart(ctx, {
 		type: 'line',
 		data:{
@@ -33,10 +44,24 @@
 				label: 'gains',
 				data: data,
 				fill: true,
-				borderColor: 'rgb(75, 192, 192)',
+				borderColor: '#1fc36c',
 				tension: 0.1
 			}]
+		},
+		
+		options: {
+			scales:{	
+				x: {
+					max: 10,
+					reverse: true
+				},
+			},
+			layout: {
+            	padding: 20
+        	}
+			
 		}
 	});
+	 myChart.defaults.plugins.tooltip
 </script>
 {% endblock %}

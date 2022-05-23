@@ -29,7 +29,7 @@ class DeleteTransactionController extends AbstractController
         /*--------------------------------------------- check the statue of the transaction*/
         
         $transaction = $walletRepository->find($request->query->getInt('id'));
-        if($transaction===null || $transaction->getStatus()===false){
+        if($transaction!==null && $transaction->getStatus()===false){
             return $this->redirectToRoute('app_default');
         }
         /*--------------------------------------------- create form */
@@ -54,17 +54,18 @@ class DeleteTransactionController extends AbstractController
             $lastentires = end($allWinnings);
             $balanceamount = $lastentires->getBalance();
         }
-
         /*--------------------------------------------- check valdity of form */
 
         if($form->isSubmitted() && $form->isValid()){
             $data=$form->getData();
+            $transaction = $walletRepository->find($data['wallet']->getId());
 
-            if($transaction->getAmount() > (int)$data['amount']){
+            if($transaction->getAmount() > (float)$data['amount']){
                 
                 /*---------------------------------------------Check current Value*/
                 
-                $amount = $transaction->getAmount();
+                $Iamount = $transaction->getAmount();
+                $amount = $Iamount - (float)$data['amount'];
                 $slug = $transaction->getCurrency()->getSlug();
                 $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'';
                 
@@ -82,7 +83,7 @@ class DeleteTransactionController extends AbstractController
                 
                 /*---------------------------------------------Set Value*/
 
-                $transaction->setAmount( (int)$data['amount']);
+                $transaction->setAmount(  $amount );
                 
                 $newWinnings= new Winnings;
                 $newWinnings->setBalance($balanceamount + $transaction->getCurrentValue());
@@ -94,13 +95,13 @@ class DeleteTransactionController extends AbstractController
                 $entityManager->flush($newWinnings);
                 
                 return $this->redirectToRoute('app_default');
-            }else if($transaction->getAmount()=== (int)$data['amount']){
+            }else if($transaction->getAmount()=== (float)$data['amount']){
 
                 /*---------------------------------------------Check current Value*/
                 
                 $amount = $transaction->getAmount();
                 $slug = $transaction->getCurrency()->getSlug();
-                $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'';
+                $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount=1';
                 
                 /*call to api */
                 
@@ -112,7 +113,7 @@ class DeleteTransactionController extends AbstractController
                 ]);
                 $content = $response->getContent();
               
-                $transaction->setCurrentValue(json_decode($content)->data[0]->quote->USD->price);
+                $transaction->setCurrentValue(json_decode($content)->data[0]->quote->USD->price*$amount);
                 
                 /*---------------------------------------------Set Value*/
 
@@ -131,12 +132,12 @@ class DeleteTransactionController extends AbstractController
             }else{
                 /*to do error value can't be negative*/
             }
-                        
+
         }
         /*--------------------------------------------- call of the template*/
 
         return $this->render('delete_transaction/index.html.twig', [
-            'controller_name' => $transaction->getAmount(),
+            'controller_name' => 'Supprimer un montant',
             'form'=>$form->createView()
         ]);
        

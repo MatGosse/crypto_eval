@@ -1,21 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DeleteTransactionController!{% endblock %}
+{% block title %}{{ controller_name }}{% endblock %}
+
+{% block nav %}
+    <a href="../"> <img src="{{ asset('/img/picto/cancel.png') }}"/></a>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<style>{{source('@css/form.css')}}</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    {{ form(form) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/crypto_tracker/symfony/src/Controller/DeleteTransactionController.php'|file_link(0) }}">src/Controller/DeleteTransactionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/crypto_tracker/symfony/templates/delete_transaction/index.html.twig'|file_link(0) }}">templates/delete_transaction/index.html.twig</a></code></li>
-    </ul>
+<div class="container container-form flex x-center y-center">
+    {{ form_start(form) }}
+        <div class="flex y-center">
+            <img src="{{ asset('/img/picto/search.png') }}" />
+            {{ form_widget(form.wallet  ) }}
+        </div>
+        <div class="flex y-center">
+            <img src="{{ asset('/img/picto/quantityIcon.png') }}" />
+            {{ form_widget(form.amount) }}
+        </div>
+        <div class="submit-contain flex x-center y-center">
+            {{ form_widget(form.valider) }}
+        </div>
+    {{ form_end(form) }}
 </div>
+<script>
+    let params = new URLSearchParams(window.location.search);
+    if(params.has('id')){
+        let array = document.getElementById('remove_wallet_form_wallet').children;
+        
+        for (let i = 0; i < array.length; i++) {
+            if(array[i].value== params.get('id')){
+                document.getElementById('remove_wallet_form_wallet').value = params.get('id');
+            }
+        }
+        
+        
+    }
+</script>
 {% endblock %}
