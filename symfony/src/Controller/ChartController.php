@@ -35,6 +35,8 @@ class ChartController extends AbstractController
  
         if( $transaction->getCurrency()->getSlug()==="BTC"){
             $slug = "btceur";
+        }elseif($transaction->getCurrency()->getSlug()==="ETH"){
+            $slug = "etheur";
         }
         $date = $transaction->getCreationDate()->getTimestamp();
 

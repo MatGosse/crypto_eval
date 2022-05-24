@@ -29,7 +29,7 @@ class DefaultController extends AbstractController
 
             $amount = $trade->getAmount();
             $slug = $trade->getCurrency()->getSlug();
-            $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'';
+            $url= 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion?symbol='.$slug.'&amount='.$amount.'&convert=EUR';
     
             /*call to api */
             
