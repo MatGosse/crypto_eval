@@ -46,7 +46,6 @@ class DefaultController extends AbstractController
         }
 
         /*--------------------------------------------- call of the template*/
-
         return $this->render('default/index.html.twig', [
             'controller_name' => 'Crypto Tracker',
             'data_wallet'=> $data

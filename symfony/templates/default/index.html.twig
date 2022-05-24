@@ -8,11 +8,14 @@
 
 {% block nav %}
     <ul class="flex">
-        <li>
-            <a id="link-edit" href="/delete?id={{ data_wallet[0].id }}">
-                <img src="{{ asset('/img/picto/edit.png') }}" />
-            </a>
-        </li>
+        {% if data_wallet is empty %}
+                {% else %}
+                <li>
+                    <a id="link-edit" href="/delete?id={{ data_wallet[0].id }}">
+                        <img src="{{ asset('/img/picto/edit.png') }}" />
+                    </a>
+                </li>
+        {% endif %}    
         <li>
             <a href="/add">
                 <img src="{{ asset('/img/picto/+.png') }}" />
@@ -25,38 +28,52 @@
     
     <header class="flex x-center y-center">
         <div id="particles-js"></div>
-        {% if  ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount) >= 0 %}
-                <input id='value-viewer' value='+ {{ ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount)|round(2, 'floor') }}' />
+
+        {% if data_wallet is empty %}
+            <input id='value-viewer' value='0' />
             {% else %}
-                <input id='value-viewer' value='- {{ ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount)|round(2, 'floor') }}' />
+                {% if  ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount) >= 0 %}
+                    <input id='value-viewer' value='+ {{ ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount)|round(2, 'floor') }}' />
+                {% else %}
+                    <input id='value-viewer' value='- {{ ((data_wallet[0].currentValue / data_wallet[0].amount - data_wallet[0].InitialValue / data_wallet[0].Initialamount) *data_wallet[0].amount)|round(2, 'floor') }}' />
+                {% endif %}
         {% endif %}
+       
     </header>
     <div class="container">
-        <ul id="transaction-list">
-            {% for exanges in data_wallet %}
-                <li class="flex y-center" onClick=changeViewTransaction(event)>
-                    <form class="flex x-space-b y-center">        
-                        <input type="hidden" value="{{ ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.Initialamount) * exanges.amount)|round(2, 'floor') }}" readonly/>
-                        <input type="hidden" value="{{ exanges.amount }}" readonly/>
-                        <input type="hidden" value="{{ exanges.id }}" readonly/>
-                        <div class="flex y-center">
-                            <img src ="uploads/{{ exanges.Currency.Images.Name }}" />
-                            <p>{{ exanges.Currency.Slug }} ({{ exanges.Currency.Name }})</p>
-                        </div>
-                        <a href='/chart?id={{ exanges.id }}'>
-                            {% if  ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.InitialValue)|round(2, 'floor')) > 100 %}
-                                    <img src="{{ asset('/img/picto/arrow-up.png') }}" />
-                                    <img src="{{ asset('/img/picto/arrow-up.png') }}" />
-                                {% elseif  ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.InitialValue)|round(2, 'floor')) > 0 %}
-                                    <img src="{{ asset('/img/picto/arrow-up.png') }}" />
-                                {% else %}
-                                    <img src="{{ asset('/img/picto/arrow-down.png') }}" />
-                            {% endif %}
-                        </a>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
+        
+        {% if data_wallet is empty %}
+            <h2> Pas d'actifs pour le moment</h2>
+            {% else %}
+                <ul id="transaction-list">
+            
+                    {% for exanges in data_wallet %}
+                        <li class="flex y-center" onClick=changeViewTransaction(event)>
+                            <form class="flex x-space-b y-center">        
+                                <input type="hidden" value="{{ ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.Initialamount) * exanges.amount)|round(2, 'floor') }}" readonly/>
+                                <input type="hidden" value="{{ exanges.amount }}" readonly/>
+                                <input type="hidden" value="{{ exanges.id }}" readonly/>
+                                <div class="flex y-center">
+                                    <img src ="uploads/{{ exanges.Currency.Images.Name }}" />
+                                    <p>{{ exanges.Currency.Slug }} ({{ exanges.Currency.Name }})</p>
+                                </div>
+                                <a href='/chart?id={{ exanges.id }}'>
+                                    {% if  ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.InitialValue)|round(2, 'floor')) > 100 %}
+                                            <img src="{{ asset('/img/picto/arrow-up.png') }}" />
+                                            <img src="{{ asset('/img/picto/arrow-up.png') }}" />
+                                        {% elseif  ((exanges.currentValue / exanges.amount - exanges.InitialValue / exanges.InitialValue)|round(2, 'floor')) > 0 %}
+                                            <img src="{{ asset('/img/picto/arrow-up.png') }}" />
+                                        {% else %}
+                                            <img src="{{ asset('/img/picto/arrow-down.png') }}" />
+                                    {% endif %}
+                                </a>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>                
+        {% endif %}
+    
+        
     </div>
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
