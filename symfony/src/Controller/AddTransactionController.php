@@ -49,14 +49,13 @@ class AddTransactionController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
-            
+
             /*--------------------------------------------- Adding forms data to DataBase */
-            $currency = $curencyRepository->findOneBy([
-                'Name' => $data['crypto_name']
-            ]);
+            
+           
 
             $NewTransaction = new Wallet;
-            $NewTransaction->setCurrency($currency);
+            $NewTransaction->setCurrency($data['crypto_name']);
             $NewTransaction->setAmount($data['amount']);
             $NewTransaction->setInitialAmount($data['amount']);
             $NewTransaction->setInitialValue($data['initial_value']);

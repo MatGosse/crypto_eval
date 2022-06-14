@@ -35,10 +35,17 @@ class ChartController extends AbstractController
  
         if( $transaction->getCurrency()->getSlug()==="BTC"){
             $slug = "btceur";
+            $market = "kraken";
+        }elseif( $transaction->getCurrency()->getSlug()==="ETH"){
+            $slug = "etheur";
+            $market = "kraken";
+        }elseif( $transaction->getCurrency()->getSlug()==="XPR"){
+            $slug = "xprusdt";
+            $market = "hitbtc";
         }
         $date = $transaction->getCreationDate()->getTimestamp();
 
-        $url= 'https://api.cryptowat.ch/markets/kraken/'. $slug .'/ohlc?periods=60&after='.$date.'';
+        $url= 'https://api.cryptowat.ch/markets/'.$market.'/'. $slug .'/ohlc?periods=60&after='.$date.'';
         
         /*call to api */
              

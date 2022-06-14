@@ -25,6 +25,7 @@ class DefaultController extends AbstractController
         
         foreach ($data as $trade){
 
+           
             /*---------------------------------------------Check current Value*/
 
             $amount = $trade->getAmount();
@@ -40,8 +41,8 @@ class DefaultController extends AbstractController
                 ],
             ]);
             $content = $response->getContent(); 
-            $trade->setCurrentValue(json_decode($content)->data[0]->quote->USD->price);   
-
+            $trade->setCurrentValue(json_decode($content)->data[0]->quote->EUR->price);   
+    
             $entityManager->flush($trade);
         }
 
