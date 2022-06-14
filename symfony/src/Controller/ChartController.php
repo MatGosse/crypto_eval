@@ -14,6 +14,7 @@ use App\Form\RemoveWalletFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\WalletRepository;
 use App\Repository\WinningsRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ChartController extends AbstractController
 {
@@ -42,6 +43,9 @@ class ChartController extends AbstractController
         }elseif( $transaction->getCurrency()->getSlug()==="XPR"){
             $slug = "xprusdt";
             $market = "hitbtc";
+        }else{
+            return new RedirectResponse('http://crypto.mg-digital.fr');
+           
         }
         $date = $transaction->getCreationDate()->getTimestamp();
 
